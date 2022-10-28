@@ -8,6 +8,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Unit test for Tax calculator.
  */
@@ -23,8 +25,9 @@ public class TaxCalculatorTest
 
         try {
             FileReader reader = new FileReader(fileName);
-            double amount = cal.getAmountTotal(new BufferedReader(reader));
-            System.out.println(amount);
+            double actual = cal.getAmountTotal(new BufferedReader(reader));
+            double expected = (882.49 * 0.1) + (643.82 * 0.1);
+            assertEquals("Amount is there because there is custId in CSV data", expected, actual, 0);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

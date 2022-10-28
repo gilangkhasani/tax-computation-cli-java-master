@@ -30,7 +30,7 @@ public class TaxCalculator {
 
 		} catch (MalformedRecordException | IOException e) {
 			total = 0.0;
-			System.out.println(e);
+			e.printStackTrace();
 		}
 
 		return total;

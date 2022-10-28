@@ -89,11 +89,7 @@ public class AppTest {
 
 		String fileName = path + "/" + "transaction-30lines.csv";
 		String[] args = {"PAYROLL", "3327", fileName};
-		try {
-			app.main(args);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		app.main(args);
 	}
 
 	@Test
@@ -102,11 +98,7 @@ public class AppTest {
 
 		String fileName = path + "/" + "transaction-0lines.csv";
 		String[] args = {"PAYROLL", "3327", fileName};
-		try {
-			app.main(args);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		app.main(args);
 	}
 
 	@Test

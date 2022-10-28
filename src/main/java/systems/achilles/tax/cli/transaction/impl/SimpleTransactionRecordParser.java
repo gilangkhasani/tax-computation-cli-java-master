@@ -4,6 +4,8 @@ import systems.achilles.tax.cli.model.*;
 import systems.achilles.tax.cli.transaction.TaxType;
 import systems.achilles.tax.cli.transaction.TransactionRecordParser;
 import systems.achilles.tax.cli.transaction.exception.MalformedRecordException;
+import systems.achilles.tax.cli.utils.Constants;
+import systems.achilles.tax.cli.utils.Validation;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -15,11 +17,7 @@ import java.util.regex.Pattern;
  *
  */
 public class SimpleTransactionRecordParser  implements TransactionRecordParser {
-	
-	
-	private static final String SEPERATOR = ",";
 
-	private static final String REGEX_PATTERN = "([12]\\d{3}\\/(0[1-9]|1[0-2])\\/[a-zA-Z0-9_.-]{1,10}-[0-9]{1,6})";
 
 
 	/**
@@ -31,12 +29,11 @@ public class SimpleTransactionRecordParser  implements TransactionRecordParser {
 	 * @throws MalformedRecordException
 	 */
 	public double getTaxAmountForUser(String taxRecord, String userId, TaxType taxType) throws MalformedRecordException{
-		if(taxRecord != null && !taxRecord.replaceAll("\\s+","").isEmpty()) {
-			String[] taxRecordArr = taxRecord.replaceAll("\\s+", "").split(SEPERATOR);
+		Validation validation = new Validation();
+		if(validation.checkRecord(taxRecord)) {
+			String[] taxRecordArr = validation.getRecord(taxRecord);
 			TaxType taxTypeCustId = TaxType.valueOf(taxRecordArr[4]);
-			Pattern pattern = Pattern.compile(REGEX_PATTERN, Pattern.CASE_INSENSITIVE);
-			Matcher matcher = pattern.matcher(taxRecordArr[1]);
-			boolean matchFound = matcher.find();
+			boolean matchFound = validation.validRegex(Constants.REGEX_PATTERN_INVOICE_NUMBER, taxRecordArr[1]);
 			if (matchFound) {
 				Tax tax = new Tax();
 				tax.setCustId(taxRecordArr[0]);
